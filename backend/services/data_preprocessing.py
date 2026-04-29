@@ -22,7 +22,7 @@ def clean_and_prepare_data(df_raw: pd.DataFrame):
     service_cols = ['PhoneService', 'MultipleLines', 'OnlineSecurity', 'OnlineBackup', 
                     'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies']
     
-    df_fe['services_count'] = df_fe[service_cols].applymap(lambda x: 1 if x == 'Yes' else 0).sum(axis=1)
+    df_fe['services_count'] = df_fe[service_cols].map(lambda x: 1 if x == 'Yes' else 0).sum(axis=1)
     
     contract_map = {'Month-to-month': 1, 'One year': 2, 'Two year': 3}
     df_fe['contract_score'] = df_fe['Contract'].map(contract_map)

@@ -9,7 +9,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, 'models', 'churn_best_model.pkl')
 
 model = joblib.load(MODEL_PATH)
-explainer = shap.TreeExplainer(model)
+
+# SHAP TreeExplainer only works for tree models (Random Forest, XGBoost)
+try:
+    explainer = shap.TreeExplainer(model)
+except Exception:
+    explainer = None
 
 def process_churn_file(df_raw: pd.DataFrame):
     # 1. Preprocess the data
@@ -28,14 +33,18 @@ def process_churn_file(df_raw: pd.DataFrame):
     top_20_cutoff = max(1, int(len(df_sorted) * 0.20))
     df_top_20 = df_sorted.iloc[:top_20_cutoff].copy()
     
-    # 4. SHAP Analysis
+    # 4. SHAP Analysis (or Fallback for KNN)
     top_20_scaled = df_scaled.iloc[df_top_20.index]
-    shap_values = explainer.shap_values(top_20_scaled)
     
-    if isinstance(shap_values, list):
-        shap_values = shap_values[1] 
+    if explainer:
+        shap_values = explainer.shap_values(top_20_scaled)
+        if isinstance(shap_values, list):
+            shap_values = shap_values[1] 
+        top_drivers = [expected_columns[np.argmax(row)] for row in shap_values]
+    else:
+        # Fallback for non-tree models (like KNN): pick the feature with the highest scaled value
+        top_drivers = [expected_columns[np.argmax(row)] for row in top_20_scaled.values]
         
-    top_drivers = [expected_columns[np.argmax(row)] for row in shap_values]
     df_top_20['Top_Churn_Driver'] = top_drivers
     
     # 5. Rule-Based Engine
