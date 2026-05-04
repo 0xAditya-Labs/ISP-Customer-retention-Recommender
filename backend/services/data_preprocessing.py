@@ -12,7 +12,9 @@ scaler = joblib.load(SCALER_PATH)
 expected_columns = joblib.load(COLS_PATH)
 
 def clean_and_prepare_data(df_raw: pd.DataFrame):
-    """Cleans raw CSV and translates it into the 34 math features the model expects."""
+    """Cleans raw CSV and translates it into the 34 math features the model expects.
+    I HAVE ASSUMED THAT INPUT DATA I GOT IS PREPRCESSED AND CLEAN, THEN ALSO I HAVE APPLIED THIS 
+    SO I CAN PLAY SAFE"""
     df_fe = df_raw.copy()
     
     # --- 1. DATA CLEANING ---
@@ -64,3 +66,5 @@ def clean_and_prepare_data(df_raw: pd.DataFrame):
     df_scaled = pd.DataFrame(scaled_data, columns=expected_columns)
     
     return df_scaled, df_fe['clv_proxy']
+
+
