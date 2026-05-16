@@ -7,3 +7,4 @@ shap
 joblib
 python-multipart
 openpyxl
+mysql-connector-python

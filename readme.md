@@ -24,7 +24,7 @@ This project was built from scratch to demonstrate production-level engineering,
    *   **Flight Risk Flags:** Identifies "Early Tenure" users (high risk of immediate drop-off) and users with "No Support" features, allowing agents to offer targeted upsells (like discounted Tech Support) to stabilize the account.
 2. **Productionized Machine Learning:** The ML models are entirely decoupled from their training notebooks. They are serialized, versioned, and served behind a highly concurrent **FastAPI** inference engine.
 3. **Explainable AI (XAI) API:** Most ML projects treat models as black boxes. This backend calculates SHAP values on the fly and packages them into the REST payload, turning raw math into actionable business intelligence for the frontend.
-4. **Decoupled Microservice Architecture:** Clean separation of concerns. A React client for the UI, a Python backend for heavy compute, and a Supabase instance for state and data persistence.
+4. **Decoupled Microservice Architecture:** Clean separation of concerns. A React client for the UI, a Python backend for heavy compute, and a MySQL instance for state and data persistence.
 5. **Premium SaaS UI:** Built with Vite, React, and Tailwind CSS. The dashboard is designed to look and feel like an enterprise B2B product, not an academic dashboard.
 
 ## 🏗️ System Architecture
@@ -44,7 +44,7 @@ graph TD
     end
 
     subgraph Data Layer
-        DB[(Supabase PostgreSQL)]
+        DB[(MySQL Database)]
     end
 
     UI & Stats <-->|HTTP JSON Payloads| API
@@ -57,7 +57,7 @@ graph TD
 *   **Frontend:** React, Vite, Tailwind CSS
 *   **Backend Inference:** FastAPI, Python, Uvicorn
 *   **Machine Learning:** Scikit-learn, Pandas, SHAP, Joblib
-*   **Database & Auth:** Supabase
+*   **Database:** MySQL
 
 ## 📂 Project Structure
 ```text
