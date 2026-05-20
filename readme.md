@@ -95,5 +95,4 @@ npm run dev
 
 ## 🤝 Let's Connect
 *   **GitHub:** [0xAditya-Labs](https://github.com/0xAditya-Labs)
-*   **LinkedIn:** [Your LinkedIn URL] <!-- UPDATE THIS -->
-*   **Portfolio:** [Your Portfolio URL] <!-- UPDATE THIS -->
+*   **LinkedIn:** [aditya-chauhan-nitj](https://www.linkedin.com/in/aditya-chauhan-nitj/)
