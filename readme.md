@@ -1,98 +1,285 @@
 # 📞 ISP Customer Retention Command Center
 
-[![GitHub Repository](https://img.shields.io/badge/GitHub-0xAditya--Labs%2FISP--Customer--retention--Recommender-blue?logo=github)](https://github.com/0xAditya-Labs/ISP-Customer-retention-Recommender)
+> **A production-ready full-stack B2B SaaS platform that helps Internet Service Providers (ISPs) proactively reduce customer churn using Machine Learning and Explainable AI (XAI).**
 
-> **Beyond a Jupyter Notebook:** A production-ready, full-stack B2B SaaS application designed to help Internet Service Providers (ISPs) prioritize retention calls and reduce customer churn through Explainable AI.
-
-## 🎯 The Problem vs. The Solution
-
-**The Old Way (Blind Calling):** 
-ISP support centers waste resources calling customers randomly, often offering expensive discounts to users who were never going to leave, while completely missing the users who are silently frustrated and about to cancel.
-
-**The Solution (Smart Call-Routing):** 
-This platform ingests customer data and acts as a Command Center for support agents. It ranks customers by churn risk. More importantly, it uses **SHAP Explainability** to tell the agent *exactly why* the customer is a flight risk (e.g., "High latency", "Contract ending"). The agent doesn't just know *who* to call, they know exactly *what to say and offer* to save them.
+Rather than relying on random retention calls, the platform intelligently prioritizes customers by churn risk and provides AI-generated explanations that help support agents take personalized retention actions.
 
 ---
 
-## ⚡ Technical Highlights & Unique Features
+# 🖥️ Platform Preview
 
-This project was built from scratch to demonstrate production-level engineering, bridging the gap between raw Data Science and deployable Software Engineering.
+> **Note:** Replace the image paths below with your actual GitHub image links.
 
-1. **Domain-Specific Feature Engineering:** Instead of just throwing raw data at a model, the backend pipeline engineers highly contextual business metrics on the fly:
-   *   **Loyalty Index (`loyalty_index`):** Calculates a combined score of contract length and tenure to identify truly committed users.
-   *   **CLV Proxy (`clv_proxy`):** Estimates Customer Lifetime Value dynamically to help agents prioritize saving high-value clients over low-margin accounts.
-   *   **Flight Risk Flags:** Identifies "Early Tenure" users (high risk of immediate drop-off) and users with "No Support" features, allowing agents to offer targeted upsells (like discounted Tech Support) to stabilize the account.
-2. **Productionized Machine Learning:** The ML models are entirely decoupled from their training notebooks. They are serialized, versioned, and served behind a highly concurrent **FastAPI** inference engine.
-3. **Explainable AI (XAI) API:** Most ML projects treat models as black boxes. This backend calculates SHAP values on the fly and packages them into the REST payload, turning raw math into actionable business intelligence for the frontend.
-4. **Decoupled Microservice Architecture:** Clean separation of concerns. A React client for the UI, a Python backend for heavy compute, and a MySQL instance for state and data persistence.
-5. **Premium SaaS UI:** Built with Vite, React, and Tailwind CSS. The dashboard is designed to look and feel like an enterprise B2B product, not an academic dashboard.
+## 1. Command Center Dashboard
 
-## 🏗️ System Architecture
+![Dashboard](Frontend/static/Landing%20page.png)
+
+## 2. Seamless Data Ingestion
+
+![Upload](Frontend/static/UI%20after%20submiting%20the%20csv.png)
+
+## 3. Actionable Intelligence (Risk Ranking & SHAP Explanations)
+
+![Results](Frontend/static/Output%20Table%20Contents.png)
+
+---
+
+# 🎯 Problem Statement
+
+Traditional ISP retention teams often contact customers randomly or rely solely on historical experience.
+
+This results in:
+
+- Wasting time on customers who were never likely to churn.
+- Missing genuinely at-risk customers before they leave.
+- Offering generic discounts instead of solving the customer's actual pain points.
+- Poor utilization of support teams and retention budgets.
+
+---
+
+# 💡 Solution
+
+The **ISP Customer Retention Command Center** transforms churn prediction into an actionable decision-making platform.
+
+The system:
+
+- Ingests customer data through a simple CSV upload.
+- Predicts churn probability using a trained Machine Learning model.
+- Prioritizes customers based on churn risk.
+- Generates SHAP Explainable AI insights for every prediction.
+- Helps support agents understand **why** a customer is likely to leave.
+- Enables personalized retention strategies instead of one-size-fits-all offers.
+
+Instead of simply answering **"Who is likely to churn?"**, the platform also answers **"Why are they likely to churn?"**
+
+---
+
+# ✨ Key Features
+
+## 📊 Intelligent Churn Prediction
+
+- Predicts customer churn using Scikit-learn models.
+- Real-time inference powered by FastAPI.
+- Prioritizes customers based on churn probability.
+- Enables smarter allocation of retention resources.
+
+---
+
+## 🧠 Explainable AI (SHAP)
+
+Moving beyond black-box predictions, the platform generates SHAP explanations for every customer.
+
+Support agents can instantly understand which factors contributed most to a customer's churn risk, such as:
+
+- High network latency
+- Contract nearing expiration
+- Short customer tenure
+- Low service engagement
+
+This enables personalized conversations rather than generic retention offers.
+
+---
+
+## ⚙️ Domain-Specific Feature Engineering
+
+The backend dynamically computes business-specific features before inference.
+
+### Loyalty Index (`loyalty_index`)
+
+Evaluates customer loyalty using:
+
+- Contract duration
+- Customer tenure
+
+---
+
+### Customer Lifetime Value Proxy (`clv_proxy`)
+
+Estimates long-term customer value, helping prioritize high-value customers for retention.
+
+---
+
+### Flight Risk Indicators
+
+Automatically flags customers with patterns such as:
+
+- Early tenure
+- Missing premium support features
+- Low engagement
+
+These indicators also assist in recommending targeted upselling opportunities.
+
+---
+
+## 🚀 Production-Ready Machine Learning
+
+Unlike notebook-based ML projects, the inference pipeline is completely separated from model training.
+
+Features include:
+
+- Serialized Scikit-learn models
+- Versioned model artifacts
+- FastAPI inference service
+- Concurrent request handling using Uvicorn
+- Clean separation between training and deployment
+
+---
+
+## 🏢 Modern SaaS Dashboard
+
+Built with React, Vite, and Tailwind CSS to deliver a polished enterprise experience.
+
+Features include:
+
+- Responsive dashboard
+- CSV upload workflow
+- Interactive analytics
+- Risk ranking table
+- SHAP explanation panels
+
+---
+
+# 🏗️ System Architecture
 
 ```mermaid
 graph TD
-    subgraph Client [React SPA Dashboard]
+
+    subgraph Client["React SPA Dashboard"]
         UI[Call Prioritization Interface]
-        Stats[Visual Analytics]
-    end
-    
-    subgraph Server [FastAPI Inference Server]
-        API(REST API Endpoints)
-        PreProc[Data Preprocessing Service]
-        Engine[Scikit-learn Prediction Engine]
-        SHAP[SHAP Explainability Module]
+        Stats[Analytics Dashboard]
     end
 
-    subgraph Data Layer
+    subgraph Server["FastAPI Backend"]
+        API(REST API)
+        PRE[Preprocessing Service]
+        ML[Prediction Engine]
+        SHAP[SHAP Explainability]
+    end
+
+    subgraph Data["Data Layer"]
         DB[(MySQL Database)]
     end
 
-    UI & Stats <-->|HTTP JSON Payloads| API
-    API --> PreProc --> Engine --> SHAP
-    API <-->|Read / Write| DB
+    UI -->|HTTP / JSON| API
+    Stats -->|HTTP / JSON| API
+
+    API --> PRE
+    PRE --> ML
+    ML --> SHAP
+
+    API <--> DB
 ```
 
-## 🚀 Tech Stack
+---
 
-*   **Frontend:** React, Vite, Tailwind CSS
-*   **Backend Inference:** FastAPI, Python, Uvicorn
-*   **Machine Learning:** Scikit-learn, Pandas, SHAP, Joblib
-*   **Database:** MySQL
+# 🚀 Tech Stack
 
-## 📂 Project Structure
+### Frontend
+
+- React
+- Vite
+- Tailwind CSS
+
+### Backend
+
+- FastAPI
+- Python
+- Uvicorn
+
+### Machine Learning
+
+- Scikit-learn
+- Pandas
+- NumPy
+- SHAP
+- Joblib
+
+### Database
+
+- MySQL
+
+---
+
+# 📂 Project Structure
+
 ```text
 Code_Base/
-├── Frontend/                 # React SPA (Vite + Tailwind)
-│   ├── src/                  # Components, Hooks, API integration
-│   └── package.json          # Node dependencies
 │
-├── backend/                  # Python FastAPI application
-│   ├── api/                  # API routing and payload validation
-│   ├── services/             # ML inference and data scaling logic
-│   ├── models/               # Serialized models & expected features
-│   └── requirements.txt      # Python dependencies
+├── Frontend/
+│   ├── src/
+│   ├── static/
+│   │   ├── Landing page.png
+│   │   ├── Output Table Contents.png
+│   │   └── UI after submiting the csv.png
+│   ├── package.json
+│   └── ...
 │
-└── README.md                 # Project documentation
+├── backend/
+│   ├── api/
+│   ├── services/
+│   ├── models/
+│   ├── requirements.txt
+│   └── ...
+│
+└── README.md
 ```
 
-## ⚙️ Local Setup Instructions
+---
 
-### 1. Backend Setup
+# ⚙️ Local Setup
+
+## 1️⃣ Backend
+
 ```bash
 cd backend
+
 pip install -r requirements.txt
+
 uvicorn api.main:app --reload
 ```
-*The API will be available at `http://localhost:8000`*
 
-### 2. Frontend Setup
+Backend runs on:
+
+```
+http://localhost:8000
+```
+
+---
+
+## 2️⃣ Frontend
+
 ```bash
 cd Frontend
+
 npm install
+
 npm run dev
 ```
-*The application will run on `http://localhost:5173`*
 
-## 🤝 Let's Connect
-*   **GitHub:** [0xAditya-Labs](https://github.com/0xAditya-Labs)
-*   **LinkedIn:** [aditya-chauhan-nitj](https://www.linkedin.com/in/aditya-chauhan-nitj/)
+Frontend runs on:
+
+```
+http://localhost:5173
+```
+
+---
+
+# 📈 Future Improvements
+
+- User authentication and authorization
+- Customer interaction history
+- Email & SMS campaign integration
+- Live prediction streaming
+- Docker containerization
+- Kubernetes deployment
+- GitHub Actions CI/CD
+- AWS / Azure deployment
+- Model monitoring and drift detection
+
+---
+
+# 🤝 Connect
+
+**GitHub:** https://github.com/0xAditya-Labs
+
+**LinkedIn:** https://www.linkedin.com/in/aditya-chauhan-nitj

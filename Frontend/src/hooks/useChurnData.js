@@ -58,7 +58,7 @@ export function useChurnData(token) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [token]);
 
   const toggleCompleted = useCallback((customerId) => {
     setCompletedIds((prev) => {
