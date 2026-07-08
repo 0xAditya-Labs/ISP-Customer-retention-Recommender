@@ -7,7 +7,7 @@ Rather than relying on random retention calls, the platform intelligently priori
 ---
 # 🚀 Live Website :
 
-                            https://isp-customer-retention-recommender-chi.vercel.app/
+> https://isp-customer-retention-recommender-chi.vercel.app/
 ---
 
 # 🖥️ Platform Preview
