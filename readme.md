@@ -230,6 +230,23 @@ Code_Base/
 
 ## 1️⃣ Backend
 
+Environment variables used by the backend on Render:
+
+```bash
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+DUMMY_TOKEN=dummy_jwt_token_for_now
+CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+```
+
+Render provides `PORT` automatically for the Web Service, so you do not hardcode it in the app.
+
+Recommended Render backend start command:
+
+```bash
+uvicorn api.main:app --host 0.0.0.0 --port $PORT
+```
+
 ```bash
 cd backend
 
@@ -247,6 +264,33 @@ http://localhost:8000
 ---
 
 ## 2️⃣ Frontend
+
+Environment variables used by the frontend on Vercel:
+
+```bash
+VITE_API_BASE_URL=https://your-render-backend.onrender.com
+```
+
+If you want the frontend to warm up the backend on visit, keep the app-level ping enabled in `src/App.jsx`.
+
+### Env var checklist
+
+Backend:
+
+- `ADMIN_USERNAME` - backend login username
+- `ADMIN_PASSWORD` - backend login password
+- `DUMMY_TOKEN` - token returned by `/api/login` and checked by protected routes
+- `CORS_ORIGINS` - comma-separated allowed frontend origins, for example `https://your-app.vercel.app,http://localhost:5173`
+
+Frontend:
+
+- `VITE_API_BASE_URL` - Render backend base URL used everywhere the frontend talks to the API
+
+Suggested handling:
+
+- Put local values in `.env` and commit only `.env.example`
+- Set the same variables in Render and Vercel dashboards for production
+- Update `VITE_API_BASE_URL` whenever the backend URL changes so every API call follows the same base path
 
 ```bash
 cd Frontend

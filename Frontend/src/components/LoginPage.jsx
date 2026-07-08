@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Lock, User, KeyRound, AlertCircle, ChevronRight } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 export function LoginPage({ onLogin, darkMode }) {
   const [username, setUsername] = useState('');
@@ -13,7 +14,7 @@ export function LoginPage({ onLogin, darkMode }) {
     setError(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/login', {
+      const response = await fetch(`${API_BASE_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -130,7 +131,7 @@ export function LoginPage({ onLogin, darkMode }) {
         </div>
         
         <p className={`text-center mt-6 text-xs ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
-          Hint: admin / admin123
+          Hint: backend credentials come from environment variables
         </p>
       </div>
     </div>

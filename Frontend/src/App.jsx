@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout } from './components/Layout';
 import { FileUploadArea } from './components/FileUploadArea';
 import { ROIMetricCards } from './components/ROIMetricCards';
@@ -7,6 +7,7 @@ import { LoadingSpinner } from './components/LoadingSpinner';
 import { LoginPage } from './components/LoginPage';
 import { useChurnData } from './hooks/useChurnData';
 import { AlertCircle, RotateCcw } from 'lucide-react';
+import { API_BASE_URL } from './config';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -26,6 +27,12 @@ function App() {
     setToken(null);
     reset(); // Clear sensitive data from memory when logging out
   };
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/api/health`).catch(() => {
+      // Best-effort warm-up so Render wakes up in the background.
+    });
+  }, []);
 
   if (!token) {
     return <LoginPage onLogin={(newToken) => setToken(newToken)} darkMode={darkMode} />;

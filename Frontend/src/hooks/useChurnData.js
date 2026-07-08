@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
+import { API_BASE_URL } from '../config';
 
 export function useChurnData(token) {
   const [data, setData] = useState(null);
@@ -30,7 +31,7 @@ export function useChurnData(token) {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("http://127.0.0.1:8000/api/predict-churn", {
+      const response = await fetch(`${API_BASE_URL}/api/predict-churn`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`
